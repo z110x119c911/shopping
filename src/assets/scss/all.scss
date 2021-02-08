@@ -1,0 +1,23 @@
+// @import "/node_modules/bootstrap/scss/functions.scss";
+// @import "/src/assets/helper/variables.scss";
+// @import "/node_modules/bootstrap/scss/bootstrap.scss";
+// @import "/src/assets/hover/hover.scss";
+
+@import "@~bootstrap/scss/functions";
+@import "../helper/variables";
+@import "@~bootstrap/scss/bootstrap.scss";
+@import "../hover/hover.scss";
+
+body{
+  font-family: 'Antic Slab',
+  serif;
+  color: #7e6b5a;
+}
+.article{
+  font-size: 40px;
+  letter-spacing: 5px;
+}
+.table th,
+.table td{
+  vertical-align: middle;
+}

@@ -1,0 +1,15 @@
+.parallaxy_container {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+}
+@media (max-width: 767.98px) {
+  .parallaxy_container {
+    position: relative;
+    height: auto;
+    overflow: hidden;
+  }
+}
+.header_content{
+  left: 10%;
+}
