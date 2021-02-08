@@ -237,7 +237,6 @@ export default {
 					$('#delProductModal').modal('hide');
 					vm.getProducts();
 					alert('刪除失敗');
-					console.log(response.data);
 				}
 			})
 		},

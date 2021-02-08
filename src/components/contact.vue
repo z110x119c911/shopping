@@ -2,68 +2,69 @@
   <div>
     <h2 class="article py-5 text-center">Contact Us</h2>
     <div class="row no-gutters py-3 justify-content-center">
-      <form class="needs-validation" novalidate>
-        <div class="form-row mx-0 justify-content-center">
-          <div class="col-md-8 col-10 mb-3">
-            <label for="">姓名</label>
-            <input
-            v-model="contact.Name"
-              type="text"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">格式錯誤</div>
+      <ValidationObserver class="col-md-8 col-10" v-slot="{ invalid }">
+        <form @submit.prevent="sendmail">
+          <ValidationProvider rules="required" v-slot="{ errors , classes }">
+            <div class="form-group">
+              <label>收件人姓名</label>
+              <input type="text" class="form-control" :class="classes" name="姓名"
+              v-model="contact.Name" placeholder="輸入姓名">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider rules="required" v-slot="{ errors , classes }">
+            <div class="form-group">
+              <label>收件人電話</label>
+              <input type="tel" name="聯絡電話" :class="classes" class="form-control" 
+              v-model="contact.Phone" placeholder="請輸入電話">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider rules="required|email" v-slot="{ errors , classes }">
+            <div class="form-group" >
+              <!-- 輸入框 -->
+              <label>E-mail</label>
+              <input type="email" name="email" v-model="contact.mail"
+                  class="form-control" :class="classes">
+              <!-- 錯誤訊息 -->
+              <span class="invalid-feedback">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider rules="required" v-slot="{ errors , classes }">
+            <div class="form-group">
+              <label>標題</label>
+              <input type="text" class="form-control" :class="classes" name="標題"
+              v-model="contact.Title">
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+          <ValidationProvider rules="required" v-slot="{ errors , classes }">
+            <div class="form-group">
+              <label>留言</label>
+              <textarea name="" v-model="contact.Content" id="內容" class="form-control"
+               :class="classes" cols="30" rows="10"></textarea>
+              <span class="text-danger">{{ errors[0] }}</span>
+            </div>
+          </ValidationProvider>
+<!-- 
+            <div class="col-md-8 col-10 mb-3">
+              <label for="validationTextarea">留言</label>
+              <textarea class="form-control" id="validationTextarea"
+                v-model="contact.Content"
+                required>
+              </textarea>
+              <div class="invalid-feedback">格式錯誤</div>
+            </div> -->
+          <div class="text-right">
+            <button class="btn btn-content" :disabled="invalid">送出訂單</button>
           </div>
-          <div class="col-md-8 col-10 mb-3">
-            <label for="">電話</label>
-            <input
-            v-model="contact.Phone"
-              type="text"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">格式錯誤</div>
-          </div>
-          <div class="col-md-8 col-10 mb-3">
-            <label for="">信箱</label>
-            <input
-            v-model="contact.mail"
-              type="email"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">格式錯誤</div>
-          </div>
-          <div class="col-md-8 col-10 mb-3">
-            <label for="">標題</label>
-            <input
-            v-model="contact.Title"
-              type="text"
-              class="form-control"
-              required
-            />
-            <div class="invalid-feedback">格式錯誤</div>
-          </div>
-          <div class="col-md-8 col-10 mb-3">
-            <label for="validationTextarea">留言</label>
-            <textarea class="form-control" id="validationTextarea"
-            v-model="contact.Content"
-            required></textarea>
-            <div class="invalid-feedback">格式錯誤</div>
-          </div>
-        </div>
-        <div class="row no-gutters justify-content-center">
-          <div class="col-md-8 col-10 text-right">
-            <button class="btn btn-primary" type="submit" @click="sendmail()">送出</button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
 
 <script>
-// import '../smtp'
 export default {
   data() {
     return {

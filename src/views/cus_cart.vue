@@ -3,7 +3,7 @@
     <loading :active.sync="isLoading"></loading>
     <div class="container">
       <h2 class="py-5">我的購物車</h2>
-      <div class="row">
+      <div class="row no-gutters">
         <div class="col-12">
           <table class="table">
             <thead>
@@ -32,7 +32,7 @@
                 <td colspan="3" class="text-right text-success">折扣價 :
                   <span style="color:black">{{ message }}</span> </td>
                 <td class="text-right text-success">
-                    {{ cartList.final_total }} 元
+                    {{ cartList.final_total | MathRound}} 元
                 </td>
             </tr>
             </tfoot>
@@ -46,7 +46,7 @@
               <div class="input-group mb-3 input-group-sm">
                 <input type="text" class="form-control" placeholder="請輸入優惠碼" v-model="couponCode.code">
                 <div class="input-group-append h-100">
-                  <button class="btn btn-outline-secondary" type="button" @click="addCoupon()">
+                  <button class="btn btn-outline-secondary" type="button" @keyup.enter="addCoupon()" @click="addCoupon()">
                   套用優惠碼
                   </button>
                 </div>
@@ -54,67 +54,47 @@
             </div>
           </div>
         </div>
-
-        <div class="col-12">
-          <form class="needs-validation" @submit.prevent="order" novalidate>
-            <div class="form-row mx-0 justify-content-center">
-              <div class="col-md-8 col-12 mb-3">
-                <label for="">收件人姓名</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.user.name"
-                  required
-                />
-                <div class="invalid-feedback">格式錯誤</div>
+      </div>
+      <div class="row no-gutters justify-content-center py-4">
+        <ValidationObserver class="col-md-8 col-12" v-slot="{ invalid }">
+          <form @submit.prevent="order">
+            <ValidationProvider rules="required" v-slot="{ errors , classes }">
+              <div class="form-group">
+                <label>收件人姓名</label>
+                <input type="text" class="form-control" :class="classes" name="姓名"
+                v-model="form.user.name" placeholder="輸入姓名">
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
-
-              <div class="col-md-8 col-12 mb-3">
-                <label for="">收件人電話</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.user.tel"
-                  required
-                />
-                <div class="invalid-feedback">格式錯誤</div>
+            </ValidationProvider>
+            <ValidationProvider rules="required" v-slot="{ errors , classes }">
+              <div class="form-group">
+                <label>收件人電話</label>
+                <input type="tel" name="聯絡電話" :class="classes" class="form-control" 
+                v-model="form.user.tel" placeholder="請輸入電話">
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
-
-              <div class="col-md-8 col-12 mb-3">
-                <label for="">收件人信箱</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  v-model="form.user.email"
-                  required
-                />
-                <div class="invalid-feedback">格式錯誤</div>
+            </ValidationProvider>
+            <ValidationProvider rules="required" v-slot="{ errors , classes }">
+              <div class="form-group">
+                <label>地址</label>
+                <input type="text" class="form-control" :class="classes" name="地址"
+                v-model="form.user.address">
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
-
-              <div class="col-md-8 col-12 mb-3">
-                <label for="">收件人地址</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="form.user.address"
-                  required
-                />
-                <div class="invalid-feedback">格式錯誤</div>
+            </ValidationProvider>
+            <ValidationProvider rules="required" v-slot="{ errors , classes }">
+              <div class="form-group">
+                <label>留言</label>
+                <textarea name="" v-model="form.message" id="內容" class="form-control"
+                :class="classes" cols="30" rows="10"></textarea>
+                <span class="text-danger">{{ errors[0] }}</span>
               </div>
-
-              <div class="col-md-8 col-12 mb-3">
-                <label for="comment">留言</label>
-                <textarea name="" id="comment" class="form-control" v-model="form.message" cols="30" rows="10"></textarea>
-                <div class="invalid-feedback">格式錯誤</div>
-              </div>
-
-              <div class="col-md-8 col-12 mb-3 text-right">
-                <button class="btn btn-content">送出訂單</button>
-              </div>
+            </ValidationProvider>
+            <div class="text-right">
+              <button class="btn btn-content" :disabled="invalid">送出訂單</button>
             </div>
-            
           </form>
-        </div>
+        </ValidationObserver>
       </div>
     </div>
     <Footer />
@@ -153,37 +133,47 @@ export default {
   methods: {
     getCartList(){
       const vm = this;
+      vm.isLoading = true;
 			const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
 			this.$http.get(api).then((response) => {
         vm.cartList = response.data.data;
-        console.log(response.data);
+        vm.isLoading = false;
 			})
     },
     addCoupon(){
       const vm = this;
+      vm.isLoading = true;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
 			this.$http.post(api,{data: vm.couponCode}).then((response) => {
-        console.log(response.data);
-        vm.message = response.data.message;
-        vm.getCartList();
+        if(response.data.success){
+          vm.isLoading = false;
+          vm.message = response.data.message;
+          vm.getCartList();
+        }else{
+          vm.isLoading = false;
+          alert(response.data.message);
+          vm.getCartList();
+        }
 			})
     },
     delCart(id){
       const vm = this;
+      vm.isLoading = true;
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
       this.$http.delete(api).then((response) => {
-        console.log(response.data);
+        vm.isLoading = false;
         vm.getCartList();
 			})
     },
     order(){
       const vm = this;
+      vm.isLoading = true;
       const order = vm.form
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
       this.$http.post(api,{data:order}).then((response) => {
         if(response.data.success){
-            vm.$router.push(`checkout/${response.data.orderId}`);
-            console.log(response.data);
+          vm.isLoading = false;
+          vm.$router.push(`checkout/${response.data.orderId}`);
         } 
 			})
     }

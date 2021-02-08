@@ -36,14 +36,11 @@ export default {
     Footer,
     Contact
   },
-  name: 'HelloWorld',
+  name: 'index',
   data () {
     return {
 
     }
-  },
-  methods: {
-    
   },
 }
 </script>

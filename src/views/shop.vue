@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div class="jumbotron jumbotron-fluid bg-dark">
+      <div class="container text-white">
+        <h1 class="article pb-2 my-5 title_border">Photography Product</h1>
+        <p></p>
+        <p class="lead">若有合作需求請洽 james840525@gmail.com</p>
+      </div>
+    </div>
     <div class="row py-5 no-gutters justify-content-center">
       <div class="col-md-10">
         <div class="row no-gutters">
@@ -64,7 +71,6 @@ export default {
 			const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products`;
 			this.$http.get(api).then((response) => {
         vm.products = response.data.products;
-        console.log(vm.products);
 			})
     },
     openModal(item){
@@ -81,7 +87,6 @@ export default {
 			vm.isLoading = true;
 			this.$http.post(api,{data:cart}).then((response) => {
 				vm.isLoading = false;
-				console.log(response.data);
 			})
     }
   },
