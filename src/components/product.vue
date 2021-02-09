@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="article text-center py-5 mb-0 text-content">Portfolio</h2>
+    <h2 class="article text-center py-5 mb-0 text-content">service</h2>
     <div class="row no-gutters">
       <div class="col-md-4">
         <a href="#" class="d-flex justify-content-center product_person_bg" style="text-decoration:none">
@@ -16,6 +16,12 @@
         <a href="#" class="d-flex justify-content-center product_food_bg" style="text-decoration:none">
           <h2 class="align-self-center text-white">食品攝影</h2>
         </a>
+      </div>
+    </div>
+    <h2 class="article text-center py-5 mb-0 text-content">Portfolio</h2>
+    <div class="row no-gutters">
+      <div class="col-md-4" v-for="(item) in imgList" :key="item.id">
+        <img class="img-fluid" :src="item.img">
       </div>
     </div>
     <div class="row py-5 no-gutters justify-content-center">
@@ -36,7 +42,7 @@
   .product_person_bg , .product_business_bg , .product_food_bg{
     position: relative;
     overflow: hidden;
-    height: 400px;
+    height: 200px;
     z-index: 1;
     transition: 0.5s all;
   }
@@ -89,7 +95,19 @@
 export default {
   data(){
     return{
-
+      imgList:[
+        {img:require('../assets/img/portfolio/person-1.jpg')},
+        {img:require('../assets/img/portfolio/person-2.jpg')},
+        {img:require('../assets/img/portfolio/person-3.jpg')},
+        {img:require('../assets/img/portfolio/person-4.jpg')},
+        {img:require('../assets/img/portfolio/person-5.jpg')},
+        {img:require('../assets/img/portfolio/person-6.jpg')},
+        {img:require('../assets/img/portfolio/food-1.jpg')},
+        {img:require('../assets/img/portfolio/food-2.jpg')},
+        {img:require('../assets/img/portfolio/food-3.jpg')},
+        {img:require('../assets/img/portfolio/food-4.jpg')},
+        {img:require('../assets/img/portfolio/food-5.jpg')}
+      ],
     }
   }
 }

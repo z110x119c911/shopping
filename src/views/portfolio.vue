@@ -8,11 +8,6 @@
       </div>
     </div>
     <div class="container">
-      <!-- <ul class="list-unstyled d-flex">
-        <li><a href="">人像</a></li>
-        <li><a href="#business">商業</a></li>
-        <li><a href="">食品</a></li>
-      </ul> -->
       <h3 class="pt-5 portfolio_border">人像攝影</h3>
       <div class="row">
         <div class="col-md-4 px-1 py-2" v-for="(item) in img_person_List" :key="item.id">

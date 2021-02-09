@@ -2,7 +2,7 @@
   <div>
     <h2 class="article py-5 text-center">Contact Us</h2>
     <div class="row no-gutters py-3 justify-content-center">
-      <ValidationObserver class="col-md-8 col-10" v-slot="{ invalid }">
+      <ValidationObserver class="col-md-6 col-10" v-slot="{ invalid }">
         <form @submit.prevent="sendmail">
           <ValidationProvider rules="required" v-slot="{ errors , classes }">
             <div class="form-group">
@@ -46,15 +46,6 @@
               <span class="text-danger">{{ errors[0] }}</span>
             </div>
           </ValidationProvider>
-<!-- 
-            <div class="col-md-8 col-10 mb-3">
-              <label for="validationTextarea">留言</label>
-              <textarea class="form-control" id="validationTextarea"
-                v-model="contact.Content"
-                required>
-              </textarea>
-              <div class="invalid-feedback">格式錯誤</div>
-            </div> -->
           <div class="text-right">
             <button class="btn btn-content" :disabled="invalid">送出訂單</button>
           </div>
