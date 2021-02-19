@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="article py-5 text-center">Contact Us</h2>
+    <h2 id="hashPosition" class="article py-5 text-center">Contact Us</h2>
     <div class="row no-gutters py-3 justify-content-center">
       <ValidationObserver class="col-md-6 col-10" v-slot="{ invalid }">
         <form @submit.prevent="sendmail">
@@ -89,6 +89,7 @@ export default {
       }else{
         return
       }
+      vm.$router.go(0);
     }
   },
 };

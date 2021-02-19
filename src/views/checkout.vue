@@ -95,13 +95,11 @@ export default {
 				vm.isLoading = false;
 				vm.$router.push('/');
 				vm.getOrder();
-				console.log(response.data);
 			});
 		}
 	},
 	created() {
 		this.orderId = this.$route.params.orderId;
-		console.log(this.orderId);
 		this.getOrder();
 	},
 }
